@@ -5,16 +5,42 @@
     font-family: Roboto;
 }
 
-.siteLogo {
+.logo {
     background-color: #ff7f7f;
-    height: 32px;
-    animation: rotate 8s linear infinite;
-}
+    height: 35px;
+    animation: rotateAnim 8s infinite linear normal;
+  }
+  
+  .login-button {
+    float: right;
+  }
+  
+  .bookshow-button {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .red {
+    color: red;
+  }
+  
+  .dispNone {
+    display: none;
+  }
+  
+  .dispBlock {
+    display: block;
+  }
+  
+  .tabs {
+    margin-bottom: 20px;
+  }
+
 @keyframes rotate {
-    0% {
-        transform: rotate(0deg);
+    from {
+        transform: rotateY(1deg);
     }
-    100% {
-        transform: rotate(-360deg);
+    to {
+        transform: rotateY(360deg);
     }
 } 

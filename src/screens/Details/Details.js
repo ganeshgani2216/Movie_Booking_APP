@@ -1,118 +1,74 @@
-import './Details.css';
-import React, {Component} from 'react';
-import Header from './../../common/Header/Header.js';
-import ReactDOM from 'react-dom';
-import Home from '../Home/Home.js';
+import React from "react";
+import "./Details.css";
+import "../../common/header/Header";
+import Header from "../../common/header/Header.js";
+import { Typography, GridList, GridListTileBar, GridListTile } from "@material-ui/core";
+import { Link, useLocation } from "react-router-dom";
+import Trailer from "./detailsComponents/Trailer";
+import StarBorderIcon from '@mui/icons-material/StarBorderOutlined';
 
-import moviesData from './../../common/movieData.js';
-
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import Youtube from 'react-youtube';
-import Button from '@material-ui/core/Button';
-
-class Details extends Component {
-
-    constructor() {
-        super();
-        this.state = {
-            movie: {},
-            starIcons: [{
-                id: 1,
-                stateId: "star1",
-                color: "black"
-            },
-            {
-                id: 2,
-                stateId: "star2",
-                color: "black"
-            },
-            {
-                id: 3,
-                stateId: "star3",
-                color: "black"
-            },
-            {
-                id: 4,
-                stateId: "star4",
-                color: "black"
-            },
-            {
-                id: 5,
-                stateId: "star5",
-                color: "black"
-            }]
-        }
+function starHandler(e) {
+    var clickedId = (e.target.id).slice(1)
+    for (var i = 1; i <= clickedId; i++) {
+      document.getElementById(("s").concat("", i)).style.color = "yellow";
     }
-
-    // Functionalities
-    componentWillMount() {
-        let currentState = this.state;
-        currentState.movie = moviesData.filter((mov) => {
-            return mov.id === this.props.movieId
-        })[0];
-        this.setState({ currentState });
+    for (var x = 5; x > clickedId; x--) {
+      document.getElementById(("s").concat("", x)).style.color = "black";
     }
-    backToHomeHandler = () => {
-        ReactDOM.render(<Home />, document.getElementById('root'));
-    }
-    artistClickHandler = (url) => {
-        window.location = url;
-    }
+  }
 
-    render () {
-
-        let currentMovie = this.state.movie;
-        const trailerSize = {height: '300', width: '700'};
-
-        return(
-            <div className="details">
-                <Header children={<Button style={{position:"absolute" , right:120, top:8}} variant="contained" color="primary">BOOK NOW</Button>} />
-                <div className="details-container">
-                    <div onClick={this.backToHomeHandler} style={{cursor: "pointer"}}>
-                            &#60; Back to Home
-                    </div>
-
-                    <div className="flexContainer">
-                        <div className="leftContent">
-                            <img src={currentMovie.poster_url} alt={currentMovie.title} />
-                        </div>
-                        <div className="middleContent">
-                            <h2>{currentMovie.title}</h2>
-                            <strong>Genres: </strong> <span>{currentMovie.genres.join(', ')}</span><br />
-                            <strong>Duration: </strong> <span>{currentMovie.duration}</span><br />
-                            <strong>Release Date: </strong> <span>{new Date(currentMovie.release_date).toDateString()}</span><br />
-                            <strong>Ratings: </strong> <span>{currentMovie.critics_rating}</span><br /><br />
-                            <strong>Plot: </strong> <span>{currentMovie.storyline}</span> <a href={currentMovie.wiki_url}>.. Read on</a> <br /><br />
-                            <strong>Trailer: </strong><br /><br />
-                            <Youtube opts = {trailerSize} videoId= {currentMovie.trailer_url.split("?v=")[1]} />
-                        </div>
-                        <div className="rightContent">
-                            Rate this Movie:<br />
-                            <StarIcon style= {{color: "gold"}} /><StarIcon style= {{color: "gold"}} /><StarIcon style= {{color: "gold"}} /><StarIcon style= {{color: "gold"}} /><StarBorderOutlinedIcon />
-
-                            <br /><br /><strong className="artist-margin">Artists: </strong><br /><br />
-                            <GridList cellHeight={240} cols={2}>
-                                {currentMovie.artists != null && currentMovie.artists.map((currentArtist) => (
-                                    <GridListTile
-                                        onClick={() => this.artistClickHandler(currentArtist.wiki_url)}
-                                        key={currentArtist.id}>
-                                        <img src={currentArtist.profile_url} alt={currentArtist.first_name + " " + currentArtist.last_name} />
-                                        <GridListTileBar
-                                            title={currentArtist.first_name + " " + currentArtist.last_name}
-                                        />
-                                    </GridListTile>
-                                ))}
-                            </GridList>
-                        </div>
-                    </div>
-                </div>
+  function Details() {
+    const location = useLocation();
+    const data = location.state.movie;
+    console.log(data);
+    return (
+      <div className="mainContainer">
+        <Header showBookShowButton="true" id={data.id} />
+        <div className="backbtn">
+          <Link to="/">
+            <Typography>{"<"} Back to Home</Typography>
+          </Link>
+        </div>
+        <div className="flex-container">
+          <div className="leftDetail">
+            <img className="poster" alt="poster" src={data.poster_url}></img>
+          </div>
+          <div className="middleDetail">
+            <Typography component="h2">{data.title}</Typography>
+            <Typography><strong>Genres: </strong>{data.genres.toString()}</Typography>
+            <Typography><strong>Duration: </strong>{data.duration}</Typography>
+            <Typography><strong>Release Date: </strong>{new Date(data.release_date).toDateString()}</Typography>
+            <Typography><strong>Rating: </strong>{data.critics_rating}</Typography>
+            <div className="sixteenMargin">
+              <Typography ><strong>Plot: </strong><a href={data.wiki_url}>(Wiki Link)</a>{" " + data.storyline}</Typography>
             </div>
-        );
-    }
+            <div className="sixteenMargin">
+              <Typography><strong>Trailer: </strong></Typography>
+              <Trailer id={data.trailer_url.slice(32)}></Trailer>
+            </div>
+          </div>
+          <div className="rightDetail">
+            <Typography><strong>Rate this movie: </strong><br />
+              <StarBorderIcon onClick={starHandler} id="s1" />
+              <StarBorderIcon onClick={starHandler} id="s2" />
+              <StarBorderIcon onClick={starHandler} id="s3" />
+              <StarBorderIcon onClick={starHandler} id="s4" />
+              <StarBorderIcon onClick={starHandler} id="s5" />
+            </Typography>
+            <Typography className="sixteenMargin"><strong>Artists:  </strong></Typography>
+        
+            <GridList cols={2} >
+            {data.artists.map((item) => (
+              <GridListTile key={item.id}>
+                <img alt={item.id} src={item.profile_url}></img>
+                <GridListTileBar title={item.first_name + " " + item.last_name}></GridListTileBar>
+              </GridListTile>
+              ))}
+              </GridList>
+              </div>
+      </div>
+    </div>
+  );
 }
 
 export default Details;

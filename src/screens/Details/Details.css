@@ -1,25 +1,50 @@
 .details {
     font-family: "Roboto";
-}
+    .bookshowbtn {
+        color: white;
+        background-color: blue;
+        float: right;
+        width: 7%;
+        cursor: pointer;
+        margin-right: 1%;
+        /* padding: 0 10px; */
+        height: 100%;
+        border: none;
+        border-radius: 4px;
+        /* display: none; */
+      }
 
-.details-container {
-    padding: 16px 24px 48px 24px;
-}
+      .backbtn {
+        margin: 8px 0 0 24px;
+        height: 24px;
+      }
 
-.flexContainer {
-    display: flex;
-    margin: 2%;
-}
-.leftContent {
-    width: 20%;
-    text-align: center;
-}
-.middleContent {
-    width: 60%;
-}
-.rightContent {
-    width: 20%;
-}
-.artist-margin {
-    margin: 16px 0;
-}
+      .backbtn:hover,
+      .bookshow:hover {
+       cursor: pointer;
+      }
+
+      .flex-container {
+        display: flex;
+      }
+
+      .flex-container > div {
+        margin: 0 1%;
+      }
+
+      .leftDetail {
+        width: 20%;
+      }
+
+      .middleDetail {
+        width: 60%;
+      }
+      .rightDetail {
+        width: 20%;
+      }
+      .sixteenMargin {
+        margin-top: 16px;
+      }
+      .poster {
+        width: 100%;
+      }
